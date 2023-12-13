@@ -45,12 +45,8 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
-    public function posts(): HasMany {
-        return $this->hasMany(Post::class);
-    }
-
-    public function image(): MorphOne
+    public function posts(): HasMany
     {
-        return $this->morphOne(Image::class, 'imageable');
+        return $this->hasMany(Post::class);
     }
 }

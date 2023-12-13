@@ -22,14 +22,4 @@ class Post extends Model
     {
         return $this->belongsTo(User::class);
     }
-
-    public function comments(): HasMany
-    {
-        return $this->hasMany(Comment::class);
-    }
-
-    public function imageable(): MorphOne
-    {
-        return $this->morphOne(Image::class, 'imageable');
-    }
 }

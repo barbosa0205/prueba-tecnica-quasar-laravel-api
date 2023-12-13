@@ -37,7 +37,7 @@ class AuthController extends Controller
     public function signin(LoginRequest $request)
     {
 
-        $validated = $request->validatedp();
+        $validated = $request->validated();
 
         $user = User::where('email', $request->email)->first();
 
