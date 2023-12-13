@@ -12,15 +12,24 @@ class Post extends Model
 {
     use HasFactory;
 
-    public function user(): BelongsTo {
+    protected $fillable = [
+        'title',
+        'body',
+        'user_id'
+    ];
+
+    public function user(): BelongsTo
+    {
         return $this->belongsTo(User::class);
     }
 
-    public function comments(): HasMany {
+    public function comments(): HasMany
+    {
         return $this->hasMany(Comment::class);
     }
 
-    public function imageable(): MorphOne{
+    public function imageable(): MorphOne
+    {
         return $this->morphOne(Image::class, 'imageable');
     }
 }

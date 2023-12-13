@@ -12,15 +12,11 @@ class PostController extends Controller
      */
     public function index()
     {
-        //
-    }
+        $quantity = request('qty');
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+        $posts = Post::paginate($quantity);
+
+        return response()->json($posts, 200);
     }
 
     /**
@@ -28,7 +24,21 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'title' => 'required|max:255',
+            'body' => 'required',
+        ]);
+
+        $post = Post::create([
+            'title' => $validated['title'],
+            'body' => $validated['body'],
+            'user_id' => $request->user_id,
+        ]);
+
+        return response()->json([
+            "message" => "Post store successfull",
+            "post" => $post
+        ], 201);
     }
 
     /**
@@ -39,13 +49,6 @@ class PostController extends Controller
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Post $post)
-    {
-        //
-    }
 
     /**
      * Update the specified resource in storage.
