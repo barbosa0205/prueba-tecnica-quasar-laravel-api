@@ -14,7 +14,7 @@ class PostController extends Controller
     {
         $quantity = request('qty');
 
-        $posts = Post::paginate($quantity);
+        $posts = Post::with('user')->orderBy('created_at', 'desc')->paginate($quantity);
 
         return response()->json($posts, 200);
     }
@@ -44,18 +44,25 @@ class PostController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Post $post)
-    {
-        //
-    }
-
 
     /**
      * Update the specified resource in storage.
      */
     public function update(Request $request, Post $post)
     {
-        //
+
+        $validated = $request->validate([
+            'title' => 'required|max:255',
+            'body' => 'required',
+        ]);
+
+        $post = Post::find($request->post_id);
+        $post->update(['title' => $request->title, 'body' => $request->body]);
+
+        return response()->json([
+            "message" => "Post updated successfull",
+            "post" => $post
+        ], 201);
     }
 
     /**
@@ -63,6 +70,7 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
-        //
+        Post::destroy($post->id);
+        return response()->json([], 204);
     }
 }
